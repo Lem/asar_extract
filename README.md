@@ -13,3 +13,4 @@ I'm sure there are bugs included as well.
 asar_extract FILE [DEST_DIR]
 ```
 If no *DEST_DIR* is provided it will extract it into the current directory.
+
