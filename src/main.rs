@@ -97,8 +97,13 @@ fn process_level(
             // Go level deeper
             process_level(unobed_value, node_path, header_len, raw_file);
         } else if unobed_value.contains_key("size") {
-            println!("{}", node_path.display());
-            process_file(node_path, unobed_value, header_len, raw_file);
+            // Files can be unpacked (-> not included in archive)
+            if unobed_value.contains_key("unpacked") {
+                println!("{} skipped as marked as unpacked :(", node_path.display());
+            } else {
+                println!("{}", node_path.display());
+                process_file(node_path, unobed_value, header_len, raw_file);
+            }
         } else {
             println!("{} is unknown", node_path.display());
         }
@@ -160,7 +165,7 @@ fn pad_fucking_pickle_string(input: &usize) -> usize{
 
     let padding = match remaining {
         0 => 0,
-        _ => (4 - remaining)
+        _ => 4 - remaining
     };
 
     return input + padding;
